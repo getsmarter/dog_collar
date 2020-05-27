@@ -1,5 +1,7 @@
 require 'support/fake_writer'
 require 'support/noop_worker'
+require 'support/helpers'
+require 'support/test_error'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

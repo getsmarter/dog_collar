@@ -29,7 +29,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Optional extensions
-  spec.add_development_dependency 'ddtrace', '>= 0.4.1'
+  spec.add_dependency 'ddtrace', '>= 0.4.1'
+  spec.add_dependency 'amazing_print'
   spec.add_development_dependency 'sidekiq'
 
   # Development dependencies
