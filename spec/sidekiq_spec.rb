@@ -1,17 +1,26 @@
 require 'dog_collar'
 
+# Monkey patch the Sidekiq module to allow server middleware to work in inline
+# testing mode. Without this, the server middleware is ignored.
+module Sidekiq
+  def self.server_middleware
+    yield Sidekiq::Testing.server_middleware if block_given?
+    Sidekiq::Testing.server_middleware
+  end
+
+  def self.configure_server
+    yield self
+  end
+end
+
 describe 'Sidekiq' do
   let(:writer) { FakeWriter.new }
 
   before do
-    # Allow configure_server to be run during testing, and pass the middleware
-    # set on the server through to the inline testing handler.
-    allow(Sidekiq).to receive(:configure_server).and_yield(Sidekiq)
-    allow(Sidekiq).to receive(:default_server_middleware).and_return(Sidekiq::Testing.server_middleware)
-
     DogCollar.configure do |config|
       config.service_name = 'foo'
       config.tracer = Datadog::Tracer.new(writer: writer)
+      config.tracer.enabled = true
     end
   end
 

@@ -8,7 +8,7 @@ module DogCollar
         register_as :sidekiq
 
         def patcher
-          Patcher
+          DogCollar::Contrib::Sidekiq::Patcher
         end
       end
     end

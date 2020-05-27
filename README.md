@@ -8,14 +8,19 @@ gem 'dog_collar', git: 'https://github.com/getsmarter/dog_collar'
 ```
 
 ## Configuration
+Example config, for example in a Rails application you might find this inside
+`config/initializers/dog_collar.rb`.
+
 ```ruby
 DogCollar.configure do |config|
-  config.service_name: ENV['APP_NAME'] # Required. Sets the base name for the application.
-  config.use :rails
-  config.use :sequel
+  config.service: ENV['APP_NAME'] # Required. Sets the base name for the application.
+  config.env = Rails.env
+
+  # Autoload the integrations for DogCollar. Must be called after the service
+  # name is set.
+  config.autoload!
 end
 ```
-
 
 ## Add Datadog to your project
 Add the following to your gemfile

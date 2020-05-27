@@ -45,7 +45,7 @@ module DogCollar
         end
 
         def format_error(exception)
-          { kind: exception.class, message: exception.message, backtrace: exception.backtrace.join("\n") }
+          { kind: exception.class.to_s, message: exception.message, backtrace: exception.backtrace.join("\n") }
         end
       end
     end

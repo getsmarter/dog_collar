@@ -31,10 +31,12 @@ Gem::Specification.new do |spec|
   # Optional extensions
   spec.add_dependency 'ddtrace', '>= 0.4.1'
   spec.add_dependency 'amazing_print'
-  spec.add_development_dependency 'sidekiq'
+  spec.add_dependency 'lograge'
 
   # Development dependencies
   spec.add_development_dependency 'rake', '>= 10.5'
   spec.add_development_dependency 'rubocop', '= 0.49.1' if RUBY_VERSION >= '2.1.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'sidekiq'
+  spec.add_development_dependency 'rails', '~> 5.2'
 end
