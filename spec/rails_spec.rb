@@ -14,6 +14,7 @@ describe DogCollar::Contrib::Rails do
     DogCollar.configure do |config|
       config.service_name = 'foo'
       config.tracer = Datadog::Tracer.new(writer: writer)
+      config.autoload!
     end
   end
 

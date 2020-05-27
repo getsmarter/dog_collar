@@ -2,6 +2,8 @@ module DogCollar
   class Settings
     attr_accessor :service_name
 
+    AUTOLOADS = [:sidekiq, :rails]
+
     def initialize(config)
       @config = config
     end
@@ -13,6 +15,12 @@ module DogCollar
 
     def method_missing(method, *args, &block)
       @config.send(method, *args, &block)
+    end
+
+    def autoload!
+      AUTOLOADS.map do |integration|
+        use integration if Gem.loaded_specs[integration.to_s]
+      end
     end
 
     alias_method :use, :instrument
