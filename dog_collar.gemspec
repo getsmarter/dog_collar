@@ -39,4 +39,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'sidekiq'
   spec.add_development_dependency 'rails', '~> 5.2'
+  spec.add_development_dependency 'aws-sdk', '~> 3'
 end

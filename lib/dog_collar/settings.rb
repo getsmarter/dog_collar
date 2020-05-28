@@ -2,7 +2,7 @@ module DogCollar
   class Settings
     attr_accessor :service_name
 
-    AUTOLOADS = [:sidekiq, :rails]
+    AUTOLOADS = [:sidekiq, :rails, :circuitry]
 
     def initialize(config)
       @config = config
