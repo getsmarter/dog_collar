@@ -1,5 +1,6 @@
 require 'ddtrace'
 require 'dog_collar/contrib/rails/patcher'
+require 'dog_collar/contrib/rails/configuration/settings'
 require 'dog_collar/contrib/rails/lograge/delegating_logger'
 
 module DogCollar
@@ -7,6 +8,10 @@ module DogCollar
     module Rails
       class Integration < Datadog::Contrib::Rails::Integration
         register_as :rails
+
+        def default_configuration
+          Configuration::Settings.new
+        end
 
         def patcher
           DogCollar::Contrib::Rails::Patcher

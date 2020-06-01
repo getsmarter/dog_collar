@@ -18,7 +18,7 @@ describe 'Sidekiq' do
 
   before do
     DogCollar.configure do |config|
-      config.service_name = 'foo'
+      config.service = 'foo'
       config.tracer = Datadog::Tracer.new(writer: writer)
       config.autoload!
     end

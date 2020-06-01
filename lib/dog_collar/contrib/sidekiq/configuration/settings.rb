@@ -7,6 +7,11 @@ module DogCollar
             o.default { env_to_bool(Ext::ENV_TAG_JOB_ARGS, true) }
             o.lazy
           end
+
+          option :service_name do |o|
+            o.default { "#{Datadog.configuration.service}-sidekiq" }
+            o.lazy
+          end
         end
       end
     end

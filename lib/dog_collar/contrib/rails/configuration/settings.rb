@@ -1,10 +1,10 @@
 module DogCollar
   module Contrib
-    module Circuitry
+    module Rails
       module Configuration
-        class Settings < Datadog::Contrib::Configuration::Settings
+        class Settings < Datadog::Contrib::Rails::Configuration::Settings
           option :service_name do |o|
-            o.default { "#{Datadog.configuration.service}-circuitry" }
+            o.default { Datadog.configuration.service }
             o.lazy
           end
         end

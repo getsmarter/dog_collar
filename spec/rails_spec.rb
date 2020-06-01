@@ -12,7 +12,7 @@ describe DogCollar::Contrib::Rails do
   before do
     DogCollar.configure do |config|
       config.logger = Logger.new(STDOUT)
-      config.service_name = 'foo'
+      config.service = 'foo'
       config.tracer = Datadog::Tracer.new(writer: writer)
       config.autoload!
     end

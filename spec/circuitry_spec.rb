@@ -24,7 +24,7 @@ describe DogCollar::Contrib::Circuitry do
   before do
     DogCollar.configure do |config|
       config.logger = DogCollar::Logging::Logger.new(StringIO.new)
-      config.service_name = 'foo'
+      config.service = 'foo'
       config.tracer = Datadog::Tracer.new(writer: writer)
       config.autoload!
     end
