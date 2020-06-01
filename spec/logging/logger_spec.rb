@@ -58,15 +58,7 @@ describe DogCollar::Logging::Logger do
     end
   end
 
-  serverities = {
-    debug: Logger::DEBUG,
-    info: Logger::INFO,
-    warn: Logger::WARN,
-    error: Logger::ERROR,
-    fatal: Logger::FATAL
-  }
-
-  serverities.each do |method, severity|
+  described_class::LOG_SEV.each do |method, severity|
     describe "##{method}" do
       let(:meta) { { a: 1, b: 2, c: 3 } }
 

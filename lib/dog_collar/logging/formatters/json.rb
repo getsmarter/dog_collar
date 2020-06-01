@@ -11,7 +11,7 @@ module DogCollar
           data[:status] = format_severity(severity)
           data[:@timestamp] = format_time(time)
           data[:hostname] = progname # TODO: Find out what progname is. Might map better to "source"
-          data.to_json
+          data.to_json + "\n"
         end
 
         private

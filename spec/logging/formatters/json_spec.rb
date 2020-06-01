@@ -10,6 +10,10 @@ describe DogCollar::Logging::Formatters::JSON do
 
   subject { JSON.parse(formatter.call(severity, time, progname, message, meta)) }
 
+  it 'ends in new line' do
+    expect(formatter.call(severity, time, progname, message, meta)).to end_with("\n")
+  end
+
   context 'when a message is provided' do
     it 'includes the message' do
       expect(subject).to include("message" => message)

@@ -13,7 +13,7 @@ Example config, for example in a Rails application you might find this inside
 
 ```ruby
 DogCollar.configure do |config|
-  config.service: ENV['APP_NAME'] # Required. Sets the base name for the application.
+  config.service = ENV['APP_NAME'] # Required. Sets the base name for the application.
   config.env = Rails.env
 
   # Autoload the integrations for DogCollar. Must be called after the service

@@ -1,5 +1,6 @@
 require 'ddtrace'
 require 'dog_collar/contrib/rails/patcher'
+require 'dog_collar/contrib/rails/lograge/delegating_logger'
 
 module DogCollar
   module Contrib

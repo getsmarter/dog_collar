@@ -1,53 +1,47 @@
 require 'dog_collar/logging/formatters/json'
 require 'dog_collar/logging/formatters/pretty'
+require 'dog_collar/logging/hooks'
 
 module DogCollar
   module Logging
     class Logger < Logger
+      include Hooks
+
+      LOG_SEV = {
+        debug: Logger::DEBUG,
+        info: Logger::INFO,
+        warn: Logger::WARN,
+        error: Logger::ERROR,
+        fatal: Logger::FATAL
+      }
+
+      attr_accessor :formatter
+
       def initialize(*, **)
         super
         @formatter = default_formatter if @formatter.nil?
-        @before_hooks = []
       end
 
-      def before_log(&block)
-        @before_hooks << Proc.new
-      end
+      # def before_log(&block)
+      #   self.class.before_log(&block)
+      # end
 
-      def debug(message = nil, **meta)
-        add(::Logger::DEBUG, message, **meta)
-      end
-
-      def info(message = nil, **meta)
-        add(::Logger::INFO, message, **meta)
-      end
-
-      def warn(message = nil, **meta)
-        add(::Logger::WARN, message, **meta)
-      end
-
-      def error(message = nil, **meta)
-        add(::Logger::ERROR, message, **meta)
-      end
-
-      def fatal(message = nil, **meta)
-        add(::Logger::FATAL, message, **meta)
+      LOG_SEV.each do |method_name, severity|
+        define_method(method_name) do |message = nil, **meta|
+          add(severity, message, **meta)
+        end
       end
 
       def add(severity, message = nil, **meta)
         severity ||= ::Logger::UNKNOWN
-        meta = execute_before_hooks.merge(meta)
-        @logdev.write(format_message(severity, Time.now, progname, message, meta))
-        true
+        write(severity, message, meta)
       end
 
       private
-      def execute_before_hooks
-        meta = {}
-        @before_hooks.each do |hook|
-          meta.update(hook.call)
-        end
-        meta
+
+      def write(severity, message, meta)
+        @logdev.write(format_message(severity, Time.now, progname, message, meta))
+        true
       end
 
       def default_formatter
