@@ -12,6 +12,11 @@ module DogCollar
             o.default { "#{Datadog.configuration.service}-sidekiq" }
             o.lazy
           end
+
+          option :client_service_name do |o|
+            o.default { "#{Datadog.configuration.service}-sidekiq-client" }
+            o.lazy
+          end
         end
       end
     end
