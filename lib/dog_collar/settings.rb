@@ -1,6 +1,6 @@
 module DogCollar
   class Settings
-    AUTOLOADS = [:sidekiq, :rails, :circuitry]
+    AUTOLOADS = [:sidekiq, :rails, :circuitry, :ethon]
 
     def initialize(config)
       @config = config
