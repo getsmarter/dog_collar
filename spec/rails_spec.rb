@@ -19,8 +19,8 @@ describe DogCollar::Contrib::Rails do
   end
 
   it 'sets the logger' do
-    skip
-    expect(Rails.application.config.logger).to eq(Datadog.configuration.logger.instance)
+    #expect(Rails.application.config.logger).to eq(Datadog.configuration.logger.instance)
+    expect(Rails.application.config.logger).to be_a(DogCollar::Contrib::Rails::Logger)
   end
 
   context 'lograge' do

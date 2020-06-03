@@ -2,6 +2,7 @@ require 'ddtrace'
 require 'dog_collar/contrib/rails/patcher'
 require 'dog_collar/contrib/rails/configuration/settings'
 require 'dog_collar/contrib/rails/lograge/delegating_logger'
+require 'dog_collar/contrib/rails/logger'
 
 module DogCollar
   module Contrib

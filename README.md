@@ -80,11 +80,6 @@ DogCollar::Logging::Formatters::Pretty   # A pretty logger for use in developmen
     config.service ?
     config.runtime_metrics.enabled = true
 
-- Logger clone/children (so the log levels aren't overwritten)
-
-- Allow instrumented logger to take a service param, then create a new logger
-  for each instrumented service
-
 - /proc/1/fd/1 or /dev/stdout? is the something to do with Puma forking and not
   writing to docker output? Why was this configured like this only in
   development?
@@ -92,5 +87,6 @@ DogCollar::Logging::Formatters::Pretty   # A pretty logger for use in developmen
 - Logger thread safety (active support)
 include ActiveSupport::LoggerThreadSafeLevel
 https://github.com/rails/rails/blob/master/activesupport/lib/active_support/logger_thread_safe_level.rb#L66-L83
+- Support ActiveSupport::TaggedLogging.new interface
 
 - Test on multiple versions of ddtrace, so far it only seems to work on 0.35.x (broken on 0.36.x)

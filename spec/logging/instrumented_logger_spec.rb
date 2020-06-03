@@ -16,6 +16,14 @@ describe DogCollar::Logging::InstrumentedLogger do
     end
   end
 
+  context 'when it is initialized with a service' do
+    let(:logger) { described_class.new(io, formatter: formatter, service: 'baz') }
+
+    it 'uses the configured service name' do
+      expect(subject).to include('service' => 'baz')
+    end
+  end
+
   context 'when no service name is given' do
     before do
       DogCollar.configure do |config|

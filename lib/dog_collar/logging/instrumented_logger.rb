@@ -3,8 +3,13 @@ module DogCollar
     class InstrumentedLogger < Logger
       private
 
+      def initialize(*args, **extra)
+        @service = extra.delete(:service)
+        super(*args, **extra)
+      end
+
       def service
-        Datadog.configuration.service
+        @service || Datadog.configuration.service
       end
 
       def correlation
