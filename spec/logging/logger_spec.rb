@@ -28,6 +28,21 @@ describe DogCollar::Logging::Logger do
       logger.formatter = formatter
     end
 
+    context 'when a block is provided' do
+      it 'forwards the return value as the log message' do
+        expect(formatter).to receive(:call).with(severity, time, progname, msg, meta)
+        logger.add(severity, **meta) { msg }
+      end
+
+      it 'allows the user to modify the metadata inside the block' do
+        expect(formatter).to receive(:call).with(severity, time, progname, msg, **meta, d: 4)
+        logger.add(severity, **meta) do |meta|
+          meta[:d] = 4
+          msg
+        end
+      end
+    end
+
     context 'when a message is provided' do
       it 'calls the provided formatter' do
         expect(formatter).to receive(:call).with(severity, time, progname, msg, meta)
@@ -61,6 +76,12 @@ describe DogCollar::Logging::Logger do
   described_class::LOG_SEV.each do |method, severity|
     describe "##{method}" do
       let(:meta) { { a: 1, b: 2, c: 3 } }
+
+      context 'when a block is given' do
+        it 'yields' do
+          expect { |b| logger.add(Logger::INFO, **meta, &b) }.to yield_with_args(meta)
+        end
+      end
 
       context "when a message is provided" do
         let(:message) { "foobar" }

@@ -6,7 +6,7 @@ module DogCollar
           hook_methods = hooks.map { |hook| instance_method(hook) }
           original_method = instance_method(:add)
 
-          define_method(:add) do |severity, message = nil, **meta|
+          define_method(:add) do |severity, message = nil, **meta, &b|
             final_meta = {}
 
             # Later hooks should override the metadata from earlier ones,
@@ -18,7 +18,7 @@ module DogCollar
             final_meta.update(block.call) if block_given?
             final_meta.update(meta)
 
-            original_method.bind(self).call(severity, message, **final_meta)
+            original_method.bind(self).call(severity, message, **final_meta, &b)
           end
         end
       end

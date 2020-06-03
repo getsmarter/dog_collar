@@ -22,27 +22,23 @@ module DogCollar
         @formatter = default_formatter if @formatter.nil?
       end
 
-      # def before_log(&block)
-      #   self.class.before_log(&block)
-      # end
-
       LOG_SEV.each do |method_name, severity|
-        define_method(method_name) do |message = nil, **meta|
-          add(severity, message, **meta)
+        define_method(method_name) do |message = nil, **meta, &block|
+          add(severity, message, **meta, &block)
         end
       end
 
-      def add(severity, message = nil, **meta)
+      def add(severity, message = nil, **meta, &block)
         severity ||= ::Logger::UNKNOWN
-        write(severity, message, meta)
-      end
-
-      private
-
-      def write(severity, message, meta)
+        return true if @logdev.nil? || severity < level
+        message = yield meta if message.nil? && block_given?
         @logdev.write(format_message(severity, Time.now, progname, message, meta))
         true
       end
+
+      alias log add
+
+      private
 
       def default_formatter
         Formatters::JSON.new
