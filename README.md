@@ -44,6 +44,9 @@ logger.info do |meta|                  # Use a block to add tags and a message
   meta[:foo] = "bar"
   "Something"
 end
+logger.info "Something" do |meta|      # The message argument takes preference over the block return value.
+  meta[:foo] = "bar"
+end
 ```
 
 The logger also allows a custom log formatter, which is any callable. This

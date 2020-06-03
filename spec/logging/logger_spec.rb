@@ -41,6 +41,14 @@ describe DogCollar::Logging::Logger do
           msg
         end
       end
+
+      it 'doesn not overwrite the message argument' do
+        expect(formatter).to receive(:call).with(severity, time, progname, msg, **meta, d: 4)
+        logger.add(severity, msg, **meta) do |meta|
+          meta[:d] = 4
+          "Overwrite"
+        end
+      end
     end
 
     context 'when a message is provided' do
