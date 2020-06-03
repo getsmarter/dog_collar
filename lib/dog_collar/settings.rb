@@ -1,19 +1,22 @@
 module DogCollar
   class Settings
-    AUTOLOADS = [:sidekiq, :rails, :circuitry, :ethon, :sequel, :activerecord]
+    AUTOLOADS = %i(sidekiq rails circuitry ethon sequel active_record)
 
     def initialize(config)
       @config = config
     end
 
-    def method_missing(method, *args, &block)
-      @config.send(method, *args, &block)
+    def autoload!
+      AUTOLOADS.each do |name|
+        integration = registry[name]
+        if integration.class.patchable?
+          use(name)
+        end
+      end
     end
 
-    def autoload!
-      AUTOLOADS.map do |integration|
-        use integration if Gem.loaded_specs[integration.to_s]
-      end
+    def method_missing(method, *args, &block)
+      @config.send(method, *args, &block)
     end
   end
 end

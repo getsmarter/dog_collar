@@ -91,4 +91,3 @@ include ActiveSupport::LoggerThreadSafeLevel
 https://github.com/rails/rails/blob/master/activesupport/lib/active_support/logger_thread_safe_level.rb#L66-L83
 - Logger clone/children (so the log levels aren't overwritten)
 - Test on multiple versions of ddtrace, so far it only seems to work on 0.35.x (broken on 0.36.x)
-- Silence the warnings about active record (use the integration to figure out the name + whether its loaded)
