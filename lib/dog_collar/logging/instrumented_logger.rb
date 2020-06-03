@@ -1,12 +1,14 @@
 module DogCollar
   module Logging
     class InstrumentedLogger < Logger
-      private
+      attr_accessor :service
 
       def initialize(*args, **extra)
         @service = extra.delete(:service)
         super(*args, **extra)
       end
+
+      private
 
       def service
         @service || Datadog.configuration.service

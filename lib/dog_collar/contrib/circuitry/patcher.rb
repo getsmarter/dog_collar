@@ -14,7 +14,7 @@ module DogCollar
 
         def patch
           ::Circuitry.subscriber_config do |c|
-            c.logger = Datadog.configuration.logger.instance.clone
+            c.logger = DogCollar.configuration[:circuitry].logger.instance
             c.middleware.add TracingMiddleware
           end
         end

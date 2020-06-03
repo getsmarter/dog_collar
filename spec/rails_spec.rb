@@ -11,7 +11,6 @@ describe DogCollar::Contrib::Rails do
 
   before do
     DogCollar.configure do |config|
-      config.logger = Logger.new(STDOUT)
       config.service = 'foo'
       config.tracer = Datadog::Tracer.new(writer: writer)
       config.autoload!
@@ -19,18 +18,11 @@ describe DogCollar::Contrib::Rails do
   end
 
   it 'sets the logger' do
-    #expect(Rails.application.config.logger).to eq(Datadog.configuration.logger.instance)
-    expect(Rails.application.config.logger).to be_a(DogCollar::Contrib::Rails::Logger)
+    expect(Rails.logger).to be_a(DogCollar::Contrib::Rails::Logger)
   end
 
   context 'lograge' do
     let(:logger) { double }
-
-    before do
-      DogCollar.configure do |config|
-        config.logger = logger
-      end
-    end
 
     it 'is enabled' do
       expect(Rails.application.config.lograge.enabled).to be(true)
@@ -41,11 +33,10 @@ describe DogCollar::Contrib::Rails do
     end
 
     it 'uses the delegating logger' do
-      skip
       expect(Rails.application.config.lograge.logger)
         .to be_a(DogCollar::Contrib::Rails::Lograge::DelegatingLogger)
 
-      expect(Rails.application.config.lograge.logger.logger).to eq(Datadog.configuration.logger.instance)
+      expect(Rails.application.config.lograge.logger.logger).to equal(Rails.logger)
     end
   end
 end

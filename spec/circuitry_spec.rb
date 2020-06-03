@@ -23,7 +23,6 @@ describe DogCollar::Contrib::Circuitry do
 
   before do
     DogCollar.configure do |config|
-      config.logger = DogCollar::Logging::Logger.new(StringIO.new)
       config.service = 'foo'
       config.tracer = Datadog::Tracer.new(writer: writer)
       config.autoload!
@@ -77,8 +76,7 @@ describe DogCollar::Contrib::Circuitry do
   subject { writer.find_span_by_name('circuitry.subscriber.message') }
 
   it 'sets the logger' do
-    skip
-    expect(Circuitry.subscriber_config.logger).to eq(Datadog.configuration.logger.instance)
+    expect(Circuitry.subscriber_config.logger).to be_a(DogCollar::Logging::InstrumentedLogger)
   end
 
   it 'sets the topic to the span name' do
