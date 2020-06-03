@@ -17,6 +17,9 @@ DogCollar.configure do |config|
   config.version = ENV['APP_VERSION'] # Optional. Could be the SHA1 hash of the Git commit.
   config.env = Rails.env # Optional. Link the environment to the Rails environment
 
+  # Pretty logs in development
+  config.logger.formatter = DogCollar::Logging::Formatters::Pretty.new if Rails.env.development?
+
   # Autoload the integrations for DogCollar. Must be called after the service
   # name is set.
   config.autoload!
@@ -70,16 +73,6 @@ DogCollar::Logging::Formatters::Pretty   # A pretty logger for use in developmen
 ```
 
 # TODO:
-- Decide on defaults for
-    config.tracer.enabled
-    config.analytics.enabled
-    config.logger
-    config.logger.level
-    config.version ?
-    config.env ?
-    config.service ?
-    config.runtime_metrics.enabled = true
-
 - /proc/1/fd/1 or /dev/stdout? is the something to do with Puma forking and not
   writing to docker output? Why was this configured like this only in
   development?
@@ -87,6 +80,7 @@ DogCollar::Logging::Formatters::Pretty   # A pretty logger for use in developmen
 - Logger thread safety (active support)
 include ActiveSupport::LoggerThreadSafeLevel
 https://github.com/rails/rails/blob/master/activesupport/lib/active_support/logger_thread_safe_level.rb#L66-L83
+
 - Support ActiveSupport::TaggedLogging.new interface
 
 - Test on multiple versions of ddtrace, so far it only seems to work on 0.35.x (broken on 0.36.x)

@@ -3,7 +3,7 @@ module DogCollar
     AUTOLOADS = %i(sidekiq rails circuitry ethon sequel active_record)
 
     class LoggerSettings
-      attr_reader :device, :level, :formatter
+      attr_accessor :device, :level, :formatter
 
       def initialize
         @device = STDOUT

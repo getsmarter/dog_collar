@@ -18,9 +18,9 @@ module DogCollar
           prefix = "[#{datetime}] #{severity}: #{message}"
 
           if meta.empty?
-            prefix
+            "#{prefix}\n"
           else
-            prefix + "\n" + meta.ai
+            "#{prefix}\n#{meta.ai}\n"
           end
         end
 
