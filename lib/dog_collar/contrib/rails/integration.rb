@@ -3,6 +3,7 @@ require 'dog_collar/contrib/rails/patcher'
 require 'dog_collar/contrib/rails/configuration/settings'
 require 'dog_collar/contrib/rails/lograge/delegating_logger'
 require 'dog_collar/contrib/rails/logger'
+require 'dog_collar/contrib/rails/tagged_logger'
 
 module DogCollar
   module Contrib

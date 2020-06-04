@@ -10,7 +10,7 @@ module DogCollar
         cattr_accessor :local_levels, default: Concurrent::Map.new(initial_capacity: 2), instance_accessor: false
 
         def local_log_id
-          Fiber.current.__id__
+          thread.current.__id__
         end
 
         def local_level
@@ -43,6 +43,12 @@ module DogCollar
 
         def silence(severity = Logger::ERROR)
           silencer ? log_at(severity) { yield self } : yield(self)
+        end
+
+        private
+
+        def thread
+          @thread ||= Fiber.method_defined?(:current) ? Fiber : Thread
         end
       end
     end

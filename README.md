@@ -73,6 +73,4 @@ DogCollar::Logging::Formatters::Pretty   # A pretty logger for use in developmen
 ```
 
 # TODO:
-- Support ActiveSupport::TaggedLogging.new interface
-
 - Test on multiple versions of ddtrace, so far it only seems to work on 0.35.x (broken on 0.36.x)

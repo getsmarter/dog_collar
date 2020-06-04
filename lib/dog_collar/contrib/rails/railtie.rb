@@ -5,6 +5,7 @@ module DogCollar
         # before_configuration
         config.before_configuration do |app|
           logger = Datadog.configuration[:rails].logger.instance
+          logger = DogCollar::Contrib::Rails::TaggedLogger.new(logger)
           app.config.lograge.enabled = true
 
           # Lograge's log formatters do not provide enough control over how

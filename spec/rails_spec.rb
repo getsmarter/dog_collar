@@ -18,7 +18,8 @@ describe DogCollar::Contrib::Rails do
   end
 
   it 'sets the logger' do
-    expect(Rails.logger).to be_a(DogCollar::Contrib::Rails::Logger)
+    expect(Rails.logger).to be_a(DogCollar::Contrib::Rails::TaggedLogger)
+    expect(Rails.logger.logger).to be_a(DogCollar::Contrib::Rails::Logger)
   end
 
   context 'lograge' do
