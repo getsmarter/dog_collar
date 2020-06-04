@@ -26,6 +26,12 @@ module DogCollar
         define_method(method_name) do |message = nil, **meta, &block|
           add(severity, message, **meta, &block)
         end
+
+        # Allow severity checks to work even when level is overriden in older
+        # versions of Ruby (< 2.7.0).
+        define_method("#{method_name}?") do
+          level <= severity
+        end
       end
 
       def add(severity, message = nil, **meta, &block)

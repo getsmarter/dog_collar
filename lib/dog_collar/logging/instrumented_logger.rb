@@ -1,3 +1,5 @@
+require 'dog_collar/logging/logger'
+
 module DogCollar
   module Logging
     class InstrumentedLogger < Logger
@@ -27,7 +29,7 @@ module DogCollar
       end
 
       def add_service_tag
-        if service.present?
+        unless service.nil?
           { service: service }
         else
           {}

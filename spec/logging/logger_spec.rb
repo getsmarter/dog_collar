@@ -87,7 +87,7 @@ describe DogCollar::Logging::Logger do
 
       context 'when a block is given' do
         it 'yields' do
-          expect { |b| logger.add(Logger::INFO, **meta, &b) }.to yield_with_args(meta)
+          expect { |b| logger.add(severity, **meta, &b) }.to yield_with_args(meta)
         end
       end
 
@@ -104,6 +104,31 @@ describe DogCollar::Logging::Logger do
         it 'calls #add with the correct severity' do
           expect(logger).to receive(:add).with(severity, nil, **meta)
           logger.send(method, **meta)
+        end
+      end
+    end
+
+    describe "##{method}?" do
+      let(:order) { %i{debug info warn error fatal} }
+      let(:index) { severity + 1 }
+      let(:lower_severities) { order.take(index) }
+      let(:higher_severities) { order.drop(index) }
+
+      described_class::LOG_SEV.each do |label, level|
+        context "when the level is #{label}" do
+          before do
+            logger.level = level
+          end
+
+          if level > severity
+            it 'returns false' do
+              expect(logger.send("#{method}?")).to be(false)
+            end
+          else
+            it 'returns true' do
+              expect(logger.send("#{method}?")).to be(true)
+            end
+          end
         end
       end
     end
