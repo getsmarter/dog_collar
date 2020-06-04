@@ -34,6 +34,12 @@ module DogCollar
         end
       end
 
+      def with(**meta)
+        child = clone
+        child.before_log { meta }
+        child
+      end
+
       def add(severity, message = nil, **meta, &block)
         severity ||= ::Logger::UNKNOWN
         return true if @logdev.nil? || severity < level

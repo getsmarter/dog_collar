@@ -79,6 +79,40 @@ describe DogCollar::Logging::Logger do
       expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 2, c: 3)
       logger.info("foo", a: 1) # metadata here should override metadata from hooks
     end
+
+    it 'does not affect other instances' do
+      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1)
+      described_class.new(io, formatter: formatter).info("foo", a: 1)
+    end
+  end
+
+  describe '#with' do
+    class DerivedLogger < described_class
+      def add_meta
+        { b: 100, c: 3 }
+      end
+
+      before_log :add_meta
+    end
+
+    let(:formatter) { double }
+    let(:logger) { DerivedLogger.new(io, formatter: formatter) }
+    let!(:child) { logger.with(a: 100, b: 2).with(d: 4) }
+
+    it 'merges in all the metadata' do
+      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 2, c: 3, d: 4)
+      child.info("foo", a: 1)
+    end
+
+    it 'leaves the parent unchanged' do
+      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 3)
+      logger.info("foo", a: 1)
+    end
+
+    it 'does not affect other instances' do
+      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 3)
+      DerivedLogger.new(io, formatter: formatter).info("foo", a: 1)
+    end
   end
 
   described_class::LOG_SEV.each do |method, severity|
