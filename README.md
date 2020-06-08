@@ -71,6 +71,3 @@ DogCollar currently provides two formatters.
 DogCollar::Logging::Formatters::JSON     # Default. Logs Datadog compatible JSON, one hash per line.
 DogCollar::Logging::Formatters::Pretty   # A pretty logger for use in development
 ```
-
-# TODO:
-- Test on multiple versions of ddtrace, so far it only seems to work on 0.35.x (broken on 0.36.x)
