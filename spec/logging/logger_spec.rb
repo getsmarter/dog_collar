@@ -121,9 +121,21 @@ describe DogCollar::Logging::Logger do
     describe "##{method}" do
       let(:meta) { { a: 1, b: 2, c: 3 } }
 
-      context 'when a block is given' do
-        it 'yields' do
-          expect { |b| logger.add(severity, **meta, &b) }.to yield_with_args(meta)
+      described_class::LOG_SEV.each do |label, level|
+        context "when the level is #{label} and a block is given" do
+          before do
+            logger.level = level
+          end
+
+          if level > severity
+            it 'does not yield' do
+              expect { |b| logger.add(severity, **meta, &b) }.not_to yield_control
+            end
+          else
+            it 'yields' do
+              expect { |b| logger.add(severity, **meta, &b) }.to yield_with_args(meta)
+            end
+          end
         end
       end
 

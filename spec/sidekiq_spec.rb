@@ -34,8 +34,6 @@ describe 'Sidekiq' do
     expect(Sidekiq.logger.level).to eq(Logger::ERROR)
   end
 
-  it 'replaces the default error handler'
-
   context 'tags' do
     let(:job) { writer.find_span_by_name('sidekiq.job') }
 
