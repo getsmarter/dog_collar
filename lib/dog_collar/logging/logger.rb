@@ -45,6 +45,7 @@ module DogCollar
       def add(severity, message = nil, **meta, &block)
         severity ||= ::Logger::UNKNOWN
         return true if @logdev.nil? || severity < level
+
         message = evaluate_log_block(message, meta, &block)
 
         @logdev.write(format_message(severity, Time.now, progname, message, meta))

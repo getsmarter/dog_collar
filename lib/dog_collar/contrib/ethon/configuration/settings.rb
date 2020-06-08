@@ -4,7 +4,7 @@ module DogCollar
   module Contrib
     module Ethon
       module Configuration
-        class Settings < Datadog::Contrib::Configuration::Settings
+        class Settings < Datadog::Contrib::Ethon::Configuration::Settings
           option :split_by_domain, default: true
         end
       end
