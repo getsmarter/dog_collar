@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'dog_collar/logging/formatters/json'
 
 describe DogCollar::Logging::Formatters::JSON do
   let(:formatter) { described_class.new }
   let(:severity) { Logger::DEBUG }
-  let(:message) { "Hello, world!" }
-  let(:progname) { "foo" }
+  let(:message) { 'Hello, world!' }
+  let(:progname) { 'foo' }
   let(:meta) { { a: 1, b: 2, c: 3 } }
   let(:time) { Time.new(2001, 2, 3, 4, 5, 6, 0) }
 
@@ -16,7 +18,7 @@ describe DogCollar::Logging::Formatters::JSON do
 
   context 'when a message is provided' do
     it 'includes the message' do
-      expect(subject).to include("message" => message)
+      expect(subject).to include('message' => message)
     end
 
     it 'formats the metadata' do
@@ -28,10 +30,10 @@ describe DogCollar::Logging::Formatters::JSON do
     let(:message) { TestError.new('Oops!') }
 
     it 'formats the exception' do
-      expect(subject).to include("error" => {
-        "kind" => 'TestError',
-        "message" => 'Oops!',
-        "backtrace" => message.backtrace.join("\n")
+      expect(subject).to include('error' => {
+        'kind' => 'TestError',
+        'message' => 'Oops!',
+        'backtrace' => message.backtrace.join("\n")
       })
     end
 
@@ -44,7 +46,7 @@ describe DogCollar::Logging::Formatters::JSON do
     let(:message) { nil }
 
     it 'does not include a message' do
-      expect(subject).not_to have_key("message")
+      expect(subject).not_to have_key('message')
     end
 
     it 'formats the metadata' do
@@ -56,7 +58,7 @@ describe DogCollar::Logging::Formatters::JSON do
     let(:message) { Object.new }
 
     it 'formats the object' do
-      expect(subject).to include("message" => message.inspect)
+      expect(subject).to include('message' => message.inspect)
     end
 
     it 'formats the metadata' do
@@ -66,23 +68,23 @@ describe DogCollar::Logging::Formatters::JSON do
 
   context 'when a datetime format is provided' do
     before do
-      formatter.datetime_format = "%Y-%m-%d"
+      formatter.datetime_format = '%Y-%m-%d'
     end
 
     it 'uses the specified format' do
-      expect(subject).to include("@timestamp" => '2001-02-03')
+      expect(subject).to include('@timestamp' => '2001-02-03')
     end
   end
 
   context 'when no datetime format is provided' do
     it 'uses an IS08601 formatted timestamp with 3 milliseconds precision' do
-      expect(subject).to include("@timestamp" => '2001-02-03T04:05:06.000+00:00')
+      expect(subject).to include('@timestamp' => '2001-02-03T04:05:06.000+00:00')
     end
   end
 
   context 'when the severity is DEBUG' do
     it 'includes the level' do
-      expect(subject).to include("status" => "debug")
+      expect(subject).to include('status' => 'debug')
     end
   end
 
@@ -90,7 +92,7 @@ describe DogCollar::Logging::Formatters::JSON do
     let(:severity) { Logger::INFO }
 
     it 'includes the level' do
-      expect(subject).to include("status" => "info")
+      expect(subject).to include('status' => 'info')
     end
   end
 
@@ -98,7 +100,7 @@ describe DogCollar::Logging::Formatters::JSON do
     let(:severity) { Logger::WARN }
 
     it 'includes the level' do
-      expect(subject).to include("status" => "warn")
+      expect(subject).to include('status' => 'warn')
     end
   end
 
@@ -106,7 +108,7 @@ describe DogCollar::Logging::Formatters::JSON do
     let(:severity) { Logger::ERROR }
 
     it 'includes the level' do
-      expect(subject).to include("status" => "error")
+      expect(subject).to include('status' => 'error')
     end
   end
 
@@ -114,7 +116,7 @@ describe DogCollar::Logging::Formatters::JSON do
     let(:severity) { Logger::FATAL }
 
     it 'includes the level' do
-      expect(subject).to include("status" => "fatal")
+      expect(subject).to include('status' => 'fatal')
     end
   end
 
@@ -122,7 +124,7 @@ describe DogCollar::Logging::Formatters::JSON do
     let(:severity) { 123 }
 
     it 'includes the level' do
-      expect(subject).to include("status" => "any")
+      expect(subject).to include('status' => 'any')
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/contrib/rails/logger'
 require 'dog_collar/contrib/rails/tagged_logger'
 
@@ -23,4 +25,3 @@ describe DogCollar::Contrib::Rails::TaggedLogger do
     end
   end
 end
-

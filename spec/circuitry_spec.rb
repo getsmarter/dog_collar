@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar'
 require 'circuitry'
 
@@ -37,13 +39,13 @@ describe DogCollar::Contrib::Circuitry do
       config.logger.level = :error
 
       # Stop swallowing exceptions during testing
-      config.error_handler = Proc.new do |e|
+      config.error_handler = proc do |e|
         raise e
       end
     end
 
     sqs.stub_responses(:get_queue_url, queue_url: queue_url)
-    sqs.stub_responses(:get_queue_attributes, attributes: { "QueueArn" => queue_arn })
+    sqs.stub_responses(:get_queue_attributes, attributes: { 'QueueArn' => queue_arn })
 
     # SNS fanout to SQS encodes the SNS message to JSON inside the SQS message
     # body. Furthermore, Circuitry expects the SNS message body to be a JSON
@@ -61,13 +63,13 @@ describe DogCollar::Contrib::Circuitry do
   let(:topic_arn) { 'arn:aws:sns:us-east-2:123456789012:My-Topic' }
   let(:queue_arn) { 'arn:aws:sqs:ap-northeast-1:123456789123:test' }
   let(:queue_url) { 'https://sqs.us-east-1.amazonaws.com/12345/test' }
-  let(:message) { { "foo" => { "bar" => 1 } } }
+  let(:message) { { 'foo' => { 'bar' => 1 } } }
 
   def receive_message_and_exit
-    subscriber.subscribe do |message, topic|
+    subscriber.subscribe do |_message, _topic|
       expect(Datadog.tracer.active_span).to_not be_nil
 
-      # HACK Stop the subscriber from listening for further messages. You could
+      # HACK: Stop the subscriber from listening for further messages. You could
       # also raise SIGINT somehow to achieve the same thing
       subscriber.send('subscribed=', false)
     end

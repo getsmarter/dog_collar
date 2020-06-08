@@ -1,6 +1,7 @@
 # coding: utf-8
+# frozen_string_literal: true
 
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'dog_collar/version'
 
@@ -29,15 +30,14 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Optional extensions
-  spec.add_dependency 'ddtrace', '~> 0.35.0'
   spec.add_dependency 'amazing_print'
+  spec.add_dependency 'ddtrace', '~> 0.35.0'
   spec.add_dependency 'lograge'
 
   # Development dependencies
+  spec.add_development_dependency 'aws-sdk', '~> 3'
+  spec.add_development_dependency 'rails', '~> 5.2'
   spec.add_development_dependency 'rake', '>= 10.5'
-  spec.add_development_dependency 'rubocop', '= 0.49.1' if RUBY_VERSION >= '2.1.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'sidekiq'
-  spec.add_development_dependency 'rails', '~> 5.2'
-  spec.add_development_dependency 'aws-sdk', '~> 3'
 end

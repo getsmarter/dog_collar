@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ddtrace'
 require 'dog_collar/contrib/sidekiq/patcher'
 require 'dog_collar/contrib/sidekiq/configuration/settings'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'stringio'
 require 'dog_collar/logging/logger'
 
@@ -19,8 +21,8 @@ describe DogCollar::Logging::Logger do
     let(:formatter) { double }
     let(:time) { Time.now }
     let(:severity) { Logger::INFO }
-    let(:progname) { "foobar" }
-    let(:msg) { "Hello, world!" }
+    let(:progname) { 'foobar' }
+    let(:msg) { 'Hello, world!' }
     let(:meta) { { a: 1, b: 2, c: 3 } }
     let(:logger) { described_class.new(io, progname: progname) }
 
@@ -46,7 +48,7 @@ describe DogCollar::Logging::Logger do
         expect(formatter).to receive(:call).with(severity, time, progname, msg, **meta, d: 4)
         logger.add(severity, msg, **meta) do |meta|
           meta[:d] = 4
-          "Overwrite"
+          'Overwrite'
         end
       end
     end
@@ -77,12 +79,12 @@ describe DogCollar::Logging::Logger do
 
     it 'adds the resulting hash to the metadata on future logs' do
       expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 2, c: 3)
-      logger.info("foo", a: 1) # metadata here should override metadata from hooks
+      logger.info('foo', a: 1) # metadata here should override metadata from hooks
     end
 
     it 'does not affect other instances' do
       expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1)
-      described_class.new(io, formatter: formatter).info("foo", a: 1)
+      described_class.new(io, formatter: formatter).info('foo', a: 1)
     end
   end
 
@@ -101,17 +103,17 @@ describe DogCollar::Logging::Logger do
 
     it 'merges in all the metadata' do
       expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 2, c: 3, d: 4)
-      child.info("foo", a: 1)
+      child.info('foo', a: 1)
     end
 
     it 'leaves the parent unchanged' do
       expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 3)
-      logger.info("foo", a: 1)
+      logger.info('foo', a: 1)
     end
 
     it 'does not affect other instances' do
       expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 3)
-      DerivedLogger.new(io, formatter: formatter).info("foo", a: 1)
+      DerivedLogger.new(io, formatter: formatter).info('foo', a: 1)
     end
   end
 
@@ -125,8 +127,8 @@ describe DogCollar::Logging::Logger do
         end
       end
 
-      context "when a message is provided" do
-        let(:message) { "foobar" }
+      context 'when a message is provided' do
+        let(:message) { 'foobar' }
 
         it 'calls #add with the correct severity' do
           expect(logger).to receive(:add).with(severity, message, **meta)
@@ -134,7 +136,7 @@ describe DogCollar::Logging::Logger do
         end
       end
 
-      context "when no message is provided" do
+      context 'when no message is provided' do
         it 'calls #add with the correct severity' do
           expect(logger).to receive(:add).with(severity, nil, **meta)
           logger.send(method, **meta)
@@ -143,7 +145,7 @@ describe DogCollar::Logging::Logger do
     end
 
     describe "##{method}?" do
-      let(:order) { %i{debug info warn error fatal} }
+      let(:order) { %i[debug info warn error fatal] }
       let(:index) { severity + 1 }
       let(:lower_severities) { order.take(index) }
       let(:higher_severities) { order.drop(index) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe DogCollar::Logging::InstrumentedLogger do
   let(:io) { StringIO.new }
   let(:formatter) { proc { |_, _, _, _, meta| meta.to_json } }
@@ -42,7 +44,7 @@ describe DogCollar::Logging::InstrumentedLogger do
     end
 
     it 'sets the trace and span id' do
-      expect(subject).to include("dd" => { "trace_id" => 123, "span_id" => 456 })
+      expect(subject).to include('dd' => { 'trace_id' => 123, 'span_id' => 456 })
     end
   end
 

@@ -1,0 +1,3 @@
+inherit_gem:
+  getsmarter-rubocop-style:
+    - default.yml

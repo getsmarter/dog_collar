@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ddtrace'
 require 'dog_collar/contrib/circuitry/patcher'
 require 'dog_collar/contrib/circuitry/configuration/settings'
@@ -13,7 +15,7 @@ module DogCollar
         register_as :circuitry
 
         def self.version
-          Gem.loaded_specs['circuitry'] && Gem.loaded_specs['circuitry'].version
+          Gem.loaded_specs['circuitry']&.version
         end
 
         def self.loaded?

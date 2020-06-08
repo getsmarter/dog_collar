@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/contrib/circuitry/tracing_middleware'
 
 module DogCollar

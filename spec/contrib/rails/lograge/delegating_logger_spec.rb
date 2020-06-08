@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 require 'dog_collar'
 
 describe DogCollar::Contrib::Rails::Lograge::DelegatingLogger do
   let(:logger) { double }
-  let(:data) {
+  let(:data) do
     {
       method: 'GET',
       path: '/users',
       status: 200,
       controller: 'UserController',
       action: 'index',
-      format: 'json',
+      format: 'json'
     }
-  }
+  end
 
-  subject{ described_class.new(logger) }
+  subject { described_class.new(logger) }
 
   it 'formats the message before delegating to the underlying logger' do
     message = 'GET /users (200) -> UserController#index.json'

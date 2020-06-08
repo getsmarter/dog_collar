@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'dog_collar/logging/formatters/pretty'
 
 describe DogCollar::Logging::Formatters::Pretty do
   let(:formatter) { described_class.new }
   let(:severity) { Logger::DEBUG }
-  let(:message) { "Hello, world!" }
+  let(:message) { 'Hello, world!' }
   let(:meta) { { a: 1, b: 2, c: 3 } }
   let(:time) { Time.new(2001, 2, 3, 4, 5, 6) }
 
@@ -15,7 +17,7 @@ describe DogCollar::Logging::Formatters::Pretty do
     end
 
     it 'formats the metadata' do
-      expect(subject.gsub(/\e\[([;\d]+)?m/, '')).to include(":b => 2,")
+      expect(subject.gsub(/\e\[([;\d]+)?m/, '')).to include(':b => 2,')
     end
   end
 
@@ -27,7 +29,7 @@ describe DogCollar::Logging::Formatters::Pretty do
     end
 
     it 'formats the metadata' do
-      expect(subject.gsub(/\e\[([;\d]+)?m/, '')).to include(":b => 2,")
+      expect(subject.gsub(/\e\[([;\d]+)?m/, '')).to include(':b => 2,')
     end
   end
 
@@ -35,11 +37,11 @@ describe DogCollar::Logging::Formatters::Pretty do
     let(:message) { nil }
 
     it 'does not include a message' do
-      expect(subject.split("\n").first).to end_with(": ")
+      expect(subject.split("\n").first).to end_with(': ')
     end
 
     it 'formats the metadata' do
-      expect(subject.gsub(/\e\[([;\d]+)?m/, '')).to include(":b => 2,")
+      expect(subject.gsub(/\e\[([;\d]+)?m/, '')).to include(':b => 2,')
     end
   end
 
@@ -47,17 +49,17 @@ describe DogCollar::Logging::Formatters::Pretty do
     let(:message) { Object.new }
 
     it 'formats the object' do
-      expect(subject).to include("#<Object:0x")
+      expect(subject).to include('#<Object:0x')
     end
 
     it 'formats the metadata' do
-      expect(subject.gsub(/\e\[([;\d]+)?m/, '')).to include(":b => 2,")
+      expect(subject.gsub(/\e\[([;\d]+)?m/, '')).to include(':b => 2,')
     end
   end
 
   context 'when a datetime format is provided' do
     before do
-      formatter.datetime_format = "%Y-%m-%d"
+      formatter.datetime_format = '%Y-%m-%d'
     end
 
     it 'uses the specified format' do

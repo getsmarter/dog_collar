@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'dog_collar/contrib/sidekiq/ext'
 
 module DogCollar
   module Contrib
     module Sidekiq
       class ServerTracer
-        def call(worker, job, queue)
+        def call(_worker, job, _queue)
           add_job_tags_to_span(Datadog.tracer.active_span, job)
           job['dd'] = datadog_trace_context
           yield

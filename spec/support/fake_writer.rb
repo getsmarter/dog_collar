@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ddtrace'
 
 class FakeWriter < Datadog::Writer
@@ -17,6 +19,7 @@ class FakeWriter < Datadog::Writer
   def find_span_by_name(name)
     span = spans.find { |span| span.name == name }
     raise StandardError, "No span with name '#{name}' found" if span.nil?
+
     span
   end
 end

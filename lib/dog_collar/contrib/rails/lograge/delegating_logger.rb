@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/logging/delegator'
 
 module DogCollar
@@ -5,7 +7,7 @@ module DogCollar
     module Rails
       module Lograge
         class DelegatingLogger < DogCollar::Logging::Delegator
-          %i{debug info warn error fatal}.each do |method_name|
+          %i[debug info warn error fatal].each do |method_name|
             define_method(method_name) do |data|
               logger.send(method_name, build_message(**data), data)
             end

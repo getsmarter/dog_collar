@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Some monkeypatched helpers used in specs instead of bringing in something
 # like active support
 class Hash

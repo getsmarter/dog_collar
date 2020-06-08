@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/logging/formatters/json'
 require 'dog_collar/logging/formatters/pretty'
 require 'dog_collar/logging/hooks'
@@ -13,7 +15,7 @@ module DogCollar
         warn: Logger::WARN,
         error: Logger::ERROR,
         fatal: Logger::FATAL
-      }
+      }.freeze
 
       attr_accessor :formatter
 
@@ -40,7 +42,7 @@ module DogCollar
         child
       end
 
-      def add(severity, message = nil, **meta, &block)
+      def add(severity, message = nil, **meta)
         severity ||= ::Logger::UNKNOWN
         return true if @logdev.nil? || severity < level
 

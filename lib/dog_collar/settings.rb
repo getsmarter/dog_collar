@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module DogCollar
   class Settings
-    AUTOLOADS = %i(sidekiq rails circuitry ethon sequel active_record)
+    AUTOLOADS = %i[sidekiq rails circuitry ethon sequel active_record].freeze
 
     class LoggerSettings
       attr_accessor :device, :level, :formatter
@@ -23,9 +25,7 @@ module DogCollar
     def autoload!
       AUTOLOADS.each do |name|
         integration = registry[name]
-        if integration.class.patchable?
-          use(name)
-        end
+        use(name) if integration.class.patchable?
       end
     end
 

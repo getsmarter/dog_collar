@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ddtrace'
 require 'dog_collar/contrib/ethon/configuration/settings'
 

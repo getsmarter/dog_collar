@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/settings'
 
 module DogCollar
@@ -9,7 +11,7 @@ module DogCollar
     end
 
     def configure
-      Datadog.configure do |config|
+      Datadog.configure do |_config|
         yield configuration
       end
     end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'dog_collar'
 
-require "rails"
+require 'rails'
 module Test
   class Application < Rails::Application
   end

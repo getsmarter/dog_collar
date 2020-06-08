@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/logging/delegator'
 
 module DogCollar
@@ -15,7 +17,7 @@ module DogCollar
         private
 
         def tagged_block(*tags)
-          old_logger = self.logger
+          old_logger = logger
           self.logger = build_with_tags(tags)
           yield
         ensure

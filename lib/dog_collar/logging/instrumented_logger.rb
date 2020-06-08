@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/logging/logger'
 
 module DogCollar
@@ -29,10 +31,10 @@ module DogCollar
       end
 
       def add_service_tag
-        unless service.nil?
-          { service: service }
-        else
+        if service.nil?
           {}
+        else
+          { service: service }
         end
       end
 

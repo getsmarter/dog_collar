@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar'
 
 # Monkey patch the Sidekiq module to allow server middleware to work in inline

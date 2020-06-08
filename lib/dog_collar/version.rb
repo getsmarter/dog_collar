@@ -9,6 +9,6 @@ module DogCollar
 
     STRING = [MAJOR, MINOR, PATCH, PRE].compact.join('.')
 
-    MINIMUM_RUBY_VERSION = '2.0.0'.freeze
+    MINIMUM_RUBY_VERSION = '2.0.0'
   end
 end

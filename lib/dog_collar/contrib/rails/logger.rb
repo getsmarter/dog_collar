@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/logging/delegator'
 require 'dog_collar/logging/instrumented_logger'
 require 'active_support'
@@ -35,7 +37,8 @@ module DogCollar
         end
 
         def log_at(level)
-          old_local_level, self.local_level = local_level, level
+          old_local_level = local_level
+          self.local_level = level
           yield
         ensure
           self.local_level = old_local_level

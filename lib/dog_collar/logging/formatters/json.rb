@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 
 module DogCollar
@@ -6,7 +8,7 @@ module DogCollar
       class JSON
         attr_accessor :datetime_format
 
-        def call(severity, time, progname, msg, meta)
+        def call(severity, time, _progname, msg, meta)
           data = meta.merge(format_message(msg))
           data[:status] = format_severity(severity)
           data[:@timestamp] = format_time(time)
@@ -20,7 +22,7 @@ module DogCollar
         #
         #   https://docs.datadoghq.com/logs/processing/processors/?tab=ui#log-status-remapper
         #
-        SEV_LABEL = %w(debug info warn error fatal any).freeze
+        SEV_LABEL = ['debug', 'info', 'warn', 'error', 'fatal', 'any'].freeze
 
         def format_severity(severity)
           SEV_LABEL[severity] || 'any'

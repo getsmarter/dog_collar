@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dog_collar/contrib/rails/logger'
 
 describe DogCollar::Contrib::Rails::Logger do
@@ -51,9 +53,9 @@ describe DogCollar::Contrib::Rails::Logger do
     end
 
     it 'changes back even when the block raises an exception' do
-      expect do
-        subject.log_at(:error) { raise "boom!" }
-      end.to raise_error(StandardError)
+      expect {
+        subject.log_at(:error) { raise 'boom!' }
+      }.to raise_error(StandardError)
 
       expect(subject.level).to be(Logger::Severity::DEBUG)
     end
