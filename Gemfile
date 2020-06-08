@@ -12,3 +12,7 @@ group :development, :test do
   gem 'getsmarter-rubocop-style', git: 'https://github.com/getsmarter/getsmarter-rubocop-style'
   gem 'rubocop'
 end
+
+group :test do
+  gem 'simplecov', '~> 0.17.1', require: false
+end
