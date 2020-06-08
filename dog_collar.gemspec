@@ -14,17 +14,15 @@ Gem::Specification.new do |spec|
   spec.email                 = ['jbehr@2u.com']
 
   spec.summary     = 'Datadog wrapper'
-  spec.description = <<-EOS.gsub(/^[\s]+/, '')
+  spec.description = <<-DESCRIPTION.gsub(/^[\s]+/, '')
     Wrapper around ddtrace
-  EOS
+  DESCRIPTION
 
   spec.homepage = 'https://github.com/get-smarter/dog_collar'
 
-  if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = 'https://rubygems.org'
-  else
-    raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.'
-  end
+  raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.' unless spec.respond_to?(:metadata)
+
+  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.require_paths = ['lib']

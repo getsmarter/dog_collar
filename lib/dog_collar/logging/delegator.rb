@@ -10,7 +10,15 @@ module DogCollar
       end
 
       def method_missing(method_name, *args, &block)
-        logger.send(method_name, *args, &block)
+        if logger.respond_to?(method_name)
+          logger.send(method_name, *args, &block)
+        else
+          super
+        end
+      end
+
+      def respond_to_missing?(method, include_private = false)
+        super || logger.respond_to?(method, include_private)
       end
     end
   end

@@ -1,3 +1,10 @@
 inherit_gem:
   getsmarter-rubocop-style:
     - default.yml
+
+# Rails/*:
+#   Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb

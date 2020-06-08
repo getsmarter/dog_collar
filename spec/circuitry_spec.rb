@@ -8,7 +8,7 @@ module Circuitry
   module Services
     module SQS
       def self.test_client
-        @client ||= Aws::SQS::Client.new(stub_responses: true)
+        @_test_client ||= Aws::SQS::Client.new(stub_responses: true)
       end
 
       def sqs

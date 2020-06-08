@@ -15,7 +15,11 @@ module DogCollar
 
           private
 
-          def build_message(method:, path:, status:, controller:, action:, format:, **)
+          def build_message(data)
+            method, path, status, controller, action, format = data.values_at(
+              :method, :path, :status, :controller, :action, :format
+            )
+
             "#{method} #{path} (#{status}) -> #{controller}##{action}.#{format}"
           end
         end

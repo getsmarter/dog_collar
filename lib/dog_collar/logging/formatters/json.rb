@@ -34,11 +34,11 @@ module DogCollar
 
         def format_message(msg)
           case msg
-          when ::String
+          when String
             { message: msg }
-          when ::Exception
+          when Exception
             { error: format_error(msg) }
-          when ::NilClass
+          when nil
             {}
           else
             { message: msg.inspect }

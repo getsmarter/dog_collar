@@ -19,7 +19,7 @@ module DogCollar
     end
 
     def logger
-      @logger ||= LoggerSettings.new
+      @_logger ||= LoggerSettings.new
     end
 
     def autoload!
@@ -30,7 +30,15 @@ module DogCollar
     end
 
     def method_missing(method, *args, &block)
-      @config.send(method, *args, &block)
+      if @config.respond_to?(method)
+        @config.send(method, *args, &block)
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(method, include_private = false)
+      super || @config.respond_to?(method, include_private)
     end
   end
 end

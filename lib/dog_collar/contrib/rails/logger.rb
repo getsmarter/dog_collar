@@ -24,7 +24,7 @@ module DogCollar
           when Integer
             self.class.local_levels[local_log_id] = level
           when Symbol
-            self.class.local_levels[local_log_id] = Logger::Severity.const_get(level.to_s.upcase)
+            self.class.local_levels[local_log_id] = level_to_severity(level)
           when nil
             self.class.local_levels.delete(local_log_id)
           else
@@ -50,8 +50,12 @@ module DogCollar
 
         private
 
+        def level_to_severity(level)
+          Logger::Severity.const_get(level.to_s.upcase)
+        end
+
         def thread
-          @thread ||= Fiber.method_defined?(:current) ? Fiber : Thread
+          @_thread ||= Fiber.method_defined?(:current) ? Fiber : Thread
         end
       end
     end

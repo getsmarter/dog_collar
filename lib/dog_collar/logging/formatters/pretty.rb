@@ -30,11 +30,12 @@ module DogCollar
 
         def format_message(message)
           case message
-          when ::String
+          when String
             message
-          when ::Exception
+          when Exception
             format_exception(message)
-          when NilClass
+          when nil
+            ''
           else
             message.ai
           end

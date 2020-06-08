@@ -42,17 +42,11 @@ module DogCollar
         child
       end
 
-      def add(severity, message = nil, **meta)
+      def add(severity, message = nil, **meta, &block)
         severity ||= ::Logger::UNKNOWN
         return true if @logdev.nil? || severity < level
 
-        if block_given?
-          if message.nil?
-            message = yield meta
-          else
-            yield meta
-          end
-        end
+        message = evaluate_log_block(message, meta, &block)
 
         @logdev.write(format_message(severity, Time.now, progname, message, meta))
         true
@@ -61,6 +55,13 @@ module DogCollar
       alias log add
 
       private
+
+      def evaluate_log_block(message, meta)
+        return message unless block_given?
+
+        result = yield meta
+        message.nil? ? result : message
+      end
 
       def default_formatter
         Formatters::JSON.new

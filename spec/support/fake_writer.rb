@@ -17,7 +17,7 @@ class FakeWriter < Datadog::Writer
   end
 
   def find_span_by_name(name)
-    span = spans.find { |span| span.name == name }
+    span = spans.find { |s| s.name == name }
     raise StandardError, "No span with name '#{name}' found" if span.nil?
 
     span

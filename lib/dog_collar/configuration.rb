@@ -7,7 +7,7 @@ module DogCollar
     attr_writer :configuration
 
     def configuration
-      @configuration ||= Settings.new(Datadog.configuration)
+      @_configuration ||= Settings.new(Datadog.configuration)
     end
 
     def configure

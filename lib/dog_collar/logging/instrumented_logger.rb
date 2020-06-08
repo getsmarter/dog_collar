@@ -5,7 +5,7 @@ require 'dog_collar/logging/logger'
 module DogCollar
   module Logging
     class InstrumentedLogger < Logger
-      attr_accessor :service
+      attr_writer :service
 
       def initialize(*args, **extra)
         @service = extra.delete(:service)
