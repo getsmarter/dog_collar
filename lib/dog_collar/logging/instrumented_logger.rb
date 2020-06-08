@@ -18,13 +18,11 @@ module DogCollar
         @service || Datadog.configuration.service
       end
 
-      def correlation
-        Datadog.tracer.active_correlation
-      end
-
       def add_trace_context
+        correlation = Datadog.tracer.active_correlation
+
         if correlation.trace_id != 0
-          { dd: { trace_id: correlation.trace_id, span_id: correlation.span_id } }
+          { dd: format_correlation_identifier(correlation) }
         else
           {}
         end
@@ -36,6 +34,10 @@ module DogCollar
         else
           { service: service }
         end
+      end
+
+      def format_correlation_identifier(correlation)
+        { trace_id: correlation.trace_id, span_id: correlation.span_id }
       end
 
       before_log :add_service_tag, :add_trace_context
