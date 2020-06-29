@@ -91,28 +91,41 @@ describe DogCollar::Logging::Logger do
   describe '#with' do
     class DerivedLogger < described_class
       def add_meta
-        { b: 100, c: 3 }
+        { b: 100, c: 100 }
+      end
+
+      before_log :add_meta
+    end
+
+    class ExtraDerivedLogger < DerivedLogger
+      def add_meta
+        { c: 3, d: 100 }
       end
 
       before_log :add_meta
     end
 
     let(:formatter) { double }
-    let(:logger) { DerivedLogger.new(io, formatter: formatter) }
-    let!(:child) { logger.with(a: 100, b: 2).with(d: 4) }
+    let(:logger) { ExtraDerivedLogger.new(io, formatter: formatter) }
+    let!(:child) { logger.with(a: 100, b: 2).with(d: 4, e: 5) }
 
     it 'merges in all the metadata' do
-      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 2, c: 3, d: 4)
+      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 2, c: 3, d: 4, e: 5)
       child.info('foo', a: 1)
     end
 
     it 'leaves the parent unchanged' do
-      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 3)
+      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 3, d: 100)
       logger.info('foo', a: 1)
     end
 
     it 'does not affect other instances' do
-      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 3)
+      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 3, d: 100)
+      ExtraDerivedLogger.new(io, formatter: formatter).info('foo', a: 1)
+    end
+
+    it 'does not affect other instances of the parent' do
+      expect(formatter).to receive(:call).with(anything, anything, anything, anything, a: 1, b: 100, c: 100)
       DerivedLogger.new(io, formatter: formatter).info('foo', a: 1)
     end
   end
