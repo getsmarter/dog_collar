@@ -57,7 +57,7 @@ module DogCollar
       end
 
       def with(**meta)
-        child = clone
+        child = dup
         child.before_log { meta }
         child
       end

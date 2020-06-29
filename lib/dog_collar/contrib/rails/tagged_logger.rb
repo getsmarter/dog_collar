@@ -6,27 +6,55 @@ module DogCollar
   module Contrib
     module Rails
       class TaggedLogger < DogCollar::Logging::Delegator
+        module Hooks
+          def current_tags
+            thread_key = @thread_key ||= "dogcollar_rails_tagged_logging_tags:#{object_id}"
+            Thread.current[thread_key] ||= []
+          end
+
+          def self.extended(base)
+            base.before_log do
+              tags = current_tags
+              if tags.empty?
+                {}
+              else
+                { tags: current_tags }
+              end
+            end
+          end
+        end
+
+        def initialize(logger)
+          super(logger.dup.extend(Hooks))
+        end
+
         def tagged(*tags, &block)
           if block_given?
             tagged_block(*tags, &block)
           else
-            TaggedLogger.new(build_with_tags(tags))
+            dup.tap { |tagged_logger| tagged_logger.push_tags(*tags) }
           end
+        end
+
+        protected
+
+        def push_tags(*tags)
+          tags = tags.flatten.reject(&:blank?)
+          logger.current_tags.concat(tags)
+          tags
         end
 
         private
 
-        def tagged_block(*tags)
-          old_logger = logger
-          self.logger = build_with_tags(tags)
-          yield
-        ensure
-          self.logger = old_logger
+        def pop_tags(count)
+          logger.current_tags.pop(count)
         end
 
-        def build_with_tags(tags)
-          meta = Hash[tags.flatten.reject(&:blank?).collect { |v| [v.to_sym, v] }]
-          logger.with(**meta)
+        def tagged_block(*tags)
+          new_tags = push_tags(*tags)
+          yield self
+        ensure
+          pop_tags(new_tags.length)
         end
       end
     end
