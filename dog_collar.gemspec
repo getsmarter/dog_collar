@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
 
   # Optional extensions
   spec.add_dependency 'amazing_print'
-  spec.add_dependency 'ddtrace', '~> 0.36.0'
+  spec.add_dependency 'ddtrace', '~> 0.37.0'
   spec.add_dependency 'lograge'
 
   # Development dependencies
