@@ -9,7 +9,10 @@ module DogCollar
     module Rails
       class Logger < DogCollar::Logging::InstrumentedLogger
         cattr_accessor :silencer, default: true
-        cattr_accessor :local_levels, default: Concurrent::Map.new(initial_capacity: 2), instance_accessor: false
+
+        def self.local_levels
+          @local_levels ||= Concurrent::Map.new(initial_capacity: 2)
+        end
 
         def local_log_id
           thread.current.__id__

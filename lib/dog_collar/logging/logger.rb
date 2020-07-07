@@ -39,9 +39,13 @@ module DogCollar
         before_log_hooks << Proc.new
       end
 
-      def initialize(*, **)
+      def initialize(*, **kwargs)
         super
-        @formatter = default_formatter if @formatter.nil?
+        # Ruby versions before 2.4.0 did not accept keyword arguments on the
+        # constructor. Support progname, level and formatter.
+        self.progname = kwargs.fetch(:progname, nil)
+        self.level = kwargs.fetch(:level, DEBUG)
+        self.formatter = kwargs.fetch(:formatter, default_formatter)
       end
 
       LOG_SEV.each do |method_name, severity|

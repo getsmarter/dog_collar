@@ -73,7 +73,7 @@ describe DogCollar::Contrib::Rails::Logger do
       end
 
       t.abort_on_exception = true
-      t.report_on_exception = false
+      t.report_on_exception = false if t.respond_to?(:report_on_exception)
       log_at_started.wait_for_notification
 
       subject.log_at(:warn) do
