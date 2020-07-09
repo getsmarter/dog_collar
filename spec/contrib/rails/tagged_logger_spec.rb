@@ -38,4 +38,14 @@ describe DogCollar::Contrib::Rails::TaggedLogger do
       is_expected.not_to have_key('tags')
     end
   end
+
+  describe '#formatter' do
+    describe '#current_tags' do
+      it 'returns a list of tags' do
+        logger.tagged('BCX').tagged('Jason') do
+          expect(logger.formatter.current_tags).to eq(['BCX', 'Jason'])
+        end
+      end
+    end
+  end
 end
