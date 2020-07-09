@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 require 'dog_collar/logging/delegator'
+require 'forwardable'
 
 module DogCollar
   module Contrib
     module Rails
       class TaggedLogger < DogCollar::Logging::Delegator
+        extend Forwardable
+
         module Formatter
           def current_tags
             thread_key = @thread_key ||= "dogcollar_rails_tagged_logging_tags:#{object_id}"
@@ -56,9 +59,7 @@ module DogCollar
           end
         end
 
-        protected
-
-        delegate :push_tags, :pop_tags, :clear_tags!, to: :formatter
+        def_delegators :formatter, :push_tags, :pop_tags, :clear_tags!
 
         private
 

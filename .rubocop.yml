@@ -2,8 +2,10 @@ inherit_gem:
   getsmarter-rubocop-style:
     - default.yml
 
-# Rails/*:
-#   Enabled: false
+AllCops:
+  Exclude:
+    - vendor/**/*
+    - Appraisals
 
 Metrics/BlockLength:
   Exclude:
