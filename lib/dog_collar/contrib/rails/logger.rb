@@ -8,57 +8,13 @@ module DogCollar
   module Contrib
     module Rails
       class Logger < DogCollar::Logging::InstrumentedLogger
-        cattr_accessor :silencer, default: true
+        include LoggerSilence
+        include ActiveSupport::LoggerThreadSafeLevel
+        include DogCollar::Logging::LogMethods
 
-        def self.local_levels
-          @local_levels ||= Concurrent::Map.new(initial_capacity: 2)
-        end
-
-        def local_log_id
-          thread.current.__id__
-        end
-
-        def local_level
-          self.class.local_levels[local_log_id]
-        end
-
-        def local_level=(level)
-          case level
-          when Integer
-            self.class.local_levels[local_log_id] = level
-          when Symbol
-            self.class.local_levels[local_log_id] = level_to_severity(level)
-          when nil
-            self.class.local_levels.delete(local_log_id)
-          else
-            raise ArgumentError, "Invalid log level: #{level.inspect}"
-          end
-        end
-
-        def level
-          local_level || super
-        end
-
-        def log_at(level)
-          old_local_level = local_level
-          self.local_level = level
-          yield
-        ensure
-          self.local_level = old_local_level
-        end
-
-        def silence(severity = Logger::ERROR)
-          silencer ? log_at(severity) { yield self } : yield(self)
-        end
-
-        private
-
-        def level_to_severity(level)
-          Logger::Severity.const_get(level.to_s.upcase)
-        end
-
-        def thread
-          @_thread ||= Fiber.method_defined?(:current) ? Fiber : Thread
+        def initialize(*args, **kwargs)
+          super
+          after_initialize if respond_to? :after_initialize
         end
       end
     end
