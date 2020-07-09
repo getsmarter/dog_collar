@@ -71,3 +71,23 @@ DogCollar currently provides two formatters.
 DogCollar::Logging::Formatters::JSON     # Default. Logs Datadog compatible JSON, one hash per line.
 DogCollar::Logging::Formatters::Pretty   # A pretty logger for use in development
 ```
+
+# Tests
+Ensure bundle < 2.0 is used when testing against Rails 4.
+
+```
+bundle install
+bundle exec appraisal install
+bundle exec appraisal rails-4 rspec
+bundle exec appraisal rails-5 rspec
+bundle exec appraisal rails-6 rspec # Only Ruby 2.5.0 >= supported
+```
+
+Or to run all appraisals (ensure you're using bundler < 2.0 if using Ruby <
+2.5.0, as these versions will test against Rails 4).
+
+```
+bundle install
+bundle exec appraisal install
+bundle exec appraisal list | xargs -I '{}' bundle exec appraisal '{}' rspec
+```

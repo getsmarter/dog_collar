@@ -2,17 +2,12 @@
 
 require 'dog_collar/logging/formatters/json'
 require 'dog_collar/logging/formatters/pretty'
+require 'dog_collar/logging/log_methods'
 
 module DogCollar
   module Logging
     class Logger < Logger
-      LOG_SEV = {
-        debug: Logger::DEBUG,
-        info: Logger::INFO,
-        warn: Logger::WARN,
-        error: Logger::ERROR,
-        fatal: Logger::FATAL
-      }.freeze
+      include LogMethods
 
       attr_accessor :formatter
 
@@ -39,21 +34,13 @@ module DogCollar
         before_log_hooks << Proc.new
       end
 
-      def initialize(*, **)
+      def initialize(*, **kwargs)
         super
-        @formatter = default_formatter if @formatter.nil?
-      end
-
-      LOG_SEV.each do |method_name, severity|
-        define_method(method_name) do |message = nil, **meta, &block|
-          add(severity, message, **meta, &block)
-        end
-
-        # Allow severity checks to work even when level is overriden in older
-        # versions of Ruby (< 2.7.0).
-        define_method("#{method_name}?") do
-          level <= severity
-        end
+        # Ruby versions before 2.4.0 did not accept keyword arguments on the
+        # constructor. Support progname, level and formatter.
+        self.progname = kwargs.fetch(:progname, nil)
+        self.level = kwargs.fetch(:level, DEBUG)
+        self.formatter = kwargs.fetch(:formatter, default_formatter)
       end
 
       def with(**meta)
@@ -61,19 +48,6 @@ module DogCollar
         child.before_log { meta }
         child
       end
-
-      def add(severity, message = nil, **meta, &block)
-        severity ||= ::Logger::UNKNOWN
-        return true if @logdev.nil? || severity < level
-
-        meta = execute_before_log_hooks.update(meta)
-        message = evaluate_log_block(message, meta, &block)
-
-        @logdev.write(format_message(severity, Time.now, progname, message, meta))
-        true
-      end
-
-      alias log add
 
       private
 

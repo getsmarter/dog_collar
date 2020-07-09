@@ -33,9 +33,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'lograge'
 
   # Development dependencies
+  spec.add_development_dependency 'appraisal'
   spec.add_development_dependency 'aws-sdk', '~> 3'
-  spec.add_development_dependency 'rails', '~> 5.2'
+  spec.add_development_dependency 'circuitry', '~> 3.3.0'
   spec.add_development_dependency 'rake', '>= 10.5'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'sidekiq'
 end
