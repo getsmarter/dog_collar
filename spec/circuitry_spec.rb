@@ -92,4 +92,13 @@ describe DogCollar::Contrib::Circuitry do
   it 'sets the message as a tag on the span' do
     expect(subject.get_tag('circuitry.message')).to eq(message.to_s)
   end
+
+  context 'distributed trace' do
+    let(:ctx) { { trace_id: 1000, span_id: 2000, sampling_priority: 1 } }
+    let(:message) { { 'foo' => { 'bar' => 1 }, '_dd' => ctx } }
+
+    it 'sets the parent id' do
+      expect(subject.parent_id).to eq(1000)
+    end
+  end
 end
