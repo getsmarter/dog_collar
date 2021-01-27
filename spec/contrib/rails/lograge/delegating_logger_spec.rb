@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dog_collar'
+require 'dog_collar/contrib/rails/lograge/delegating_logger'
 
 describe DogCollar::Contrib::Rails::Lograge::DelegatingLogger do
   let(:logger) { double }
