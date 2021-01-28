@@ -98,7 +98,7 @@ describe DogCollar::Contrib::Circuitry do
     let(:message) { { 'foo' => { 'bar' => 1 }, '_dd' => ctx } }
 
     it 'sets the parent id' do
-      expect(subject.parent_id).to eq(1000)
+      expect(subject.parent_id).to eq(2000)
     end
   end
 end
