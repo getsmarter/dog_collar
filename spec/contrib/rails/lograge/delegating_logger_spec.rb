@@ -23,4 +23,10 @@ describe DogCollar::Contrib::Rails::Lograge::DelegatingLogger do
     expect(logger).to receive(:debug).with(message, data)
     subject.send(:debug, data)
   end
+
+  it "passes the message along unchanged if it is already a string" do
+    message = 'test message'
+    expect(logger).to receive(:debug).with(message)
+    subject.send(:debug, message)
+  end
 end
