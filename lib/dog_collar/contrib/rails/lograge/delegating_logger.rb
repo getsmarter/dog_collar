@@ -9,6 +9,8 @@ module DogCollar
         class DelegatingLogger < DogCollar::Logging::Delegator
           %i[debug info warn error fatal].each do |method_name|
             define_method(method_name) do |data|
+              return logger.send(method_name, data) if data.is_a? String
+
               logger.send(method_name, build_message(**data), data)
             end
           end
