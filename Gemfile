@@ -2,7 +2,11 @@
 
 source 'https://rubygems.org'
 
-gemspec
+gemspec name: 'dog_collar'
+
+Dir['dog_collar-*.gemspec'].each do |gemspec|
+  gemspec name: File.basename(gemspec, '.gemspec')
+end
 
 group :development, :test do
   gem 'getsmarter-rubocop-style', git: 'https://github.com/getsmarter/getsmarter-rubocop-style'
