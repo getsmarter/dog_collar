@@ -25,7 +25,7 @@ module DogCollar
     def autoload!
       AUTOLOADS.each do |name|
         integration = registry[name]
-        use(name) if integration.class.patchable?
+        use(name) if !integration.nil? && integration.class.patchable?
       end
     end
 
