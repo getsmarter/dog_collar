@@ -6,16 +6,18 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'dog_collar/version'
 
 Gem::Specification.new do |spec|
-  spec.name                  = 'dog_collar'
-  spec.version               = DogCollar::VERSION::STRING
+  spec.name = 'dog_collar'
+  spec.version = DogCollar::VERSION::STRING
   spec.required_ruby_version = ">= #{DogCollar::VERSION::MINIMUM_RUBY_VERSION}"
   spec.required_rubygems_version = '>= 2.0.0'
-  spec.authors               = ['James Behr']
-  spec.email                 = ['jbehr@2u.com']
+  spec.authors = ['James Behr']
+  spec.email = ['jbehr@2u.com']
 
-  spec.summary     = 'Datadog wrapper'
+  spec.summary = 'Zero-configuration structured logging and instrumentation'
   spec.description = <<-DESCRIPTION.gsub(/^[\s]+/, '')
-    Wrapper around ddtrace
+    DogCollar wraps ddtrace-rb with sensible defaults for instrumentation, as
+    well as including a structured logger that automatically relates logs to
+    the active trace.
   DESCRIPTION
 
   spec.homepage = 'https://github.com/get-smarter/dog_collar'
@@ -24,13 +26,13 @@ Gem::Specification.new do |spec|
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files = ['lib/dog_collar.rb']
   spec.require_paths = ['lib']
 
-  # Optional extensions
-  spec.add_dependency 'amazing_print'
-  spec.add_dependency 'ddtrace', '~> 0.37.0'
-  spec.add_dependency 'lograge'
+  Dir['dog_collar-*.gemspec'].each do |gemspec|
+    extension = File.basename(gemspec, '.gemspec')
+    spec.add_dependency extension, DogCollar::VERSION::STRING
+  end
 
   # Development dependencies
   spec.add_development_dependency 'appraisal'
