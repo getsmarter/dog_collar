@@ -23,5 +23,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'amazing_print'
-  spec.add_dependency 'ddtrace', '~> 0.37.0'
+  spec.add_dependency 'ddtrace', '~> 0.52.0'
 end
