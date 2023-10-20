@@ -32,12 +32,12 @@ describe DogCollar::Logging::Logger do
 
     context 'when a block is provided' do
       it 'forwards the return value as the log message' do
-        expect(formatter).to receive(:call).with(severity, time, progname, msg, meta)
+        expect(formatter).to receive(:call).with(severity, time, nil, msg, meta)
         logger.add(severity, **meta) { msg }
       end
 
       it 'allows the user to modify the metadata inside the block' do
-        expect(formatter).to receive(:call).with(severity, time, progname, msg, **meta, d: 4)
+        expect(formatter).to receive(:call).with(severity, time, nil, msg, **meta, d: 4)
         logger.add(severity, **meta) do |meta|
           meta[:d] = 4
           msg
@@ -46,7 +46,7 @@ describe DogCollar::Logging::Logger do
 
       it 'doesn not overwrite the message argument' do
         expect(formatter).to receive(:call).with(severity, time, progname, msg, **meta, d: 4)
-        logger.add(severity, msg, **meta) do |meta|
+        logger.add(severity, msg, progname, **meta) do |meta|
           meta[:d] = 4
           'Overwrite'
         end
@@ -56,13 +56,13 @@ describe DogCollar::Logging::Logger do
     context 'when a message is provided' do
       it 'calls the provided formatter' do
         expect(formatter).to receive(:call).with(severity, time, progname, msg, meta)
-        logger.add(severity, msg, **meta)
+        logger.add(severity, msg, progname, **meta)
       end
     end
 
     context 'when no message is provided' do
       it 'calls the provided formatter' do
-        expect(formatter).to receive(:call).with(severity, time, progname, nil, meta)
+        expect(formatter).to receive(:call).with(severity, time, nil, nil, meta)
         logger.add(severity, **meta)
       end
     end
@@ -156,14 +156,14 @@ describe DogCollar::Logging::Logger do
         let(:message) { 'foobar' }
 
         it 'calls #add with the correct severity' do
-          expect(logger).to receive(:add).with(severity, message, **meta)
+          expect(logger).to receive(:add).with(severity, message, nil, **meta)
           logger.send(method, message, **meta)
         end
       end
 
       context 'when no message is provided' do
         it 'calls #add with the correct severity' do
-          expect(logger).to receive(:add).with(severity, nil, **meta)
+          expect(logger).to receive(:add).with(severity, nil, nil, **meta)
           logger.send(method, **meta)
         end
       end

@@ -12,8 +12,8 @@ module DogCollar
       }.freeze
 
       LOG_SEV.each do |method_name, severity|
-        define_method(method_name) do |message = nil, **meta, &block|
-          add(severity, message, **meta, &block)
+        define_method(method_name) do |message = nil, progname = nil, **meta, &block|
+          add(severity, message, progname, **meta, &block)
         end
 
         # Allow severity checks to work even when level is overriden in older
@@ -23,7 +23,7 @@ module DogCollar
         end
       end
 
-      def add(severity, message = nil, **meta, &block)
+      def add(severity, message = nil, progname = nil, **meta, &block)
         severity ||= ::Logger::UNKNOWN
         return true if @logdev.nil? || severity < level
 
