@@ -83,7 +83,9 @@ module DogCollar
         Formatters::JSON.new
       end
 
-      def format_message(severity, datetime, progname, msg, meta)
+      def format_message(severity, datetime, progname, msg, meta={})
+        severity = severity.is_a?(String) ? level : severity
+        
         (@formatter || @default_formatter).call(severity, datetime, progname, msg, meta)
       end
     end
