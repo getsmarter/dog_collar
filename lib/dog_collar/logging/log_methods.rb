@@ -13,7 +13,7 @@ module DogCollar
 
       LOG_SEV.each do |method_name, severity|
         define_method(method_name) do |message = nil, progname = nil, **meta, &block|
-          add(severity, message, progname, **meta, &block)
+          log(severity, message, progname, **meta, &block)
         end
 
         # Allow severity checks to work even when level is overriden in older
