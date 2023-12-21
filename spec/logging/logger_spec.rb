@@ -155,14 +155,14 @@ describe DogCollar::Logging::Logger do
       context 'when a message is provided' do
         let(:message) { 'foobar' }
 
-        it 'calls #add with the correct severity' do
+        it 'calls #log with the correct severity' do
           expect(logger).to receive(:log).with(severity, message, nil, **meta)
           logger.send(method, message, **meta)
         end
       end
 
       context 'when no message is provided' do
-        it 'calls #add with the correct severity' do
+        it 'calls #log with the correct severity' do
           expect(logger).to receive(:log).with(severity, nil, nil, **meta)
           logger.send(method, **meta)
         end
