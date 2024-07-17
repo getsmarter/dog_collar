@@ -30,8 +30,8 @@ module DogCollar
         end
       end
 
-      def before_log
-        before_log_hooks << Proc.new
+      def before_log(&block)
+        before_log_hooks << Proc.new(&block)
       end
 
       def initialize(*, **kwargs)
