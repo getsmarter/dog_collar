@@ -17,7 +17,13 @@ module DogCollar
             end
 
             option :level do |o|
-              o.default { DogCollar.configuration.logger.level }
+              o.default do
+                if defined?(::Rails) && ::Rails.respond_to?(:application)
+                  ::Rails.application.config.log_level
+                else
+                  DogCollar.configuration.logger.level
+                end
+              end
               o.lazy
             end
 
